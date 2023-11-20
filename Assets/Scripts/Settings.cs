@@ -15,8 +15,8 @@ public static class Settings{
     public static int levelComplexity = 1;
     public static bool isEnterSettings = false;
     public static bool isLoadGame = false;
-    public static string filenameSaveGame = "SaveGame.txt";
-    public static string filenameSaveSettings = "SaveSettings.txt";
+    public static string filenameSaveGame = "Game.save";
+    public static string filenameSaveSettings = "Settings.save";
 
     public static void OpenMainMenu() => SceneManager.LoadScene("Main");
 
