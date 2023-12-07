@@ -7,13 +7,10 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour{
     [SerializeField] public Button buttonContinue;
-    [SerializeField] public Button buttonDeleteProgress;
 
     private void LateUpdate(){
         buttonContinue.enabled = File.Exists(Settings.filenameSaveGame);
-        buttonDeleteProgress.enabled = File.Exists(Settings.filenameSaveGame);
         Settings.ButtonSetEnabled(buttonContinue);
-        Settings.ButtonSetEnabled(buttonDeleteProgress);
     }
 
     public void DeleteProgress() => Settings.DeleteFile(Settings.filenameSaveGame);

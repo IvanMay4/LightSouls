@@ -7,16 +7,15 @@ using UnityEngine;
 
 public class GameScene : MonoBehaviour{
     public Enemy[] enemies;
-    public Canvas menuPause;
-    private bool isPlayGame = true;
+    public GameObject menuPause;
     private Player player;
+    private int cooldownSave = 1 * 60;
+    private int timeSave = 0;
 
     private void Start(){
         player = GetComponent<Player>();
         if (Settings.isLoadGame){
             Settings.isLoadGame = false;
-            for (int i = 0;i < Saver.valuesPlayer.Length; i++)
-                Debug.Log(Saver.valuesPlayer[i]);
             player.transform.position = new Vector3((float)Convert.ToDouble(Saver.valuesPlayer[0]), (float)Convert.ToDouble(Saver.valuesPlayer[1]), (float)Convert.ToDouble(Saver.valuesPlayer[2]));
             player.transform.eulerAngles = new Vector3(0, (float)Convert.ToDouble(Saver.valuesPlayer[3]), 0);
             player.SetCurrentJumps(Convert.ToInt32(Saver.valuesPlayer[4]));
@@ -28,24 +27,20 @@ public class GameScene : MonoBehaviour{
         }
     }
 
-    public bool GetIsPlayGame() => isPlayGame;
-
-    public void PlayGame() => isPlayGame = true;
-
-    public void StopGame() => isPlayGame = false;
-
-    public void ShowMenuPause(){
-        StopGame();
-        menuPause.gameObject.SetActive(true);
+    private void FixedUpdate(){
+        timeSave++;
+        if(timeSave >= cooldownSave){
+            timeSave = 0;
+            Saver.SaveGame(this);
+        }
     }
 
-    public void HiddenMenuPause(){
-        PlayGame();
-        menuPause.gameObject.SetActive(false);
-    }
+    public void ShowMenuPause() => menuPause.SetActive(true);
+    
+    public void HiddenMenuPause() => menuPause.SetActive(false);
 
     public void SetMenuPause(){
-        if (menuPause.gameObject.activeSelf)
+        if (menuPause.activeSelf)
             HiddenMenuPause();
         else
             ShowMenuPause();

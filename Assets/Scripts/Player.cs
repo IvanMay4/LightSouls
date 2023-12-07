@@ -26,7 +26,7 @@ public class Player : MonoBehaviour{
     public GameScene gameScene;
     private Vector3 move;
     [SerializeField] private new Camera camera;
-    [SerializeField] private Canvas menuPause;
+    [SerializeField] private GameObject menuPause;
 
     private void Awake(){
         Initialize();
@@ -84,10 +84,6 @@ public class Player : MonoBehaviour{
 
     public void Update(){
         IndependentAction();
-        if (!gameScene.GetIsPlayGame()){
-            rigidbody.velocity = new Vector3(0, 0, 0);
-            return;
-        }
         Move();
         Jump();
         Rotation();

@@ -24,10 +24,6 @@ public class Enemy : MonoBehaviour{
     public int NewHP(int value) => currentHP = value;
 
     public void Update(){
-        if (!player.gameScene.GetIsPlayGame()){
-            rigidbody.velocity = new Vector3(0, 0, 0);
-            return;
-        }
         Move();
         rigidbody.velocity = move;
     }
