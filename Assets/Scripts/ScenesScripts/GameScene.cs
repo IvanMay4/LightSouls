@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class GameScene : MonoBehaviour{
     public Enemy[] enemies;
-    public GameObject menuPause;
     private Player player;
     private int cooldownSave = 1 * 60;
     private int timeSave = 0;
@@ -33,17 +32,6 @@ public class GameScene : MonoBehaviour{
             timeSave = 0;
             Saver.SaveGame(this);
         }
-    }
-
-    public void ShowMenuPause() => menuPause.SetActive(true);
-    
-    public void HiddenMenuPause() => menuPause.SetActive(false);
-
-    public void SetMenuPause(){
-        if (menuPause.activeSelf)
-            HiddenMenuPause();
-        else
-            ShowMenuPause();
     }
 
     public void DeleteEnemy(int indexEnemy){

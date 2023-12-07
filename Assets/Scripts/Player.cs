@@ -7,44 +7,75 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour{
+    public int level;
+    private int vigor;
+    private int endurance;
+    private int vitality;
+    private int strength;
+    private int dexterity;
+    private int luck;
     private int maxHP;
     private int currentHP;
-    public int level;
+    private int maxST;
+    private int currentST;
     private int maxXP;
     private int currentXP;
+    private float maxWeightEquipment;
+    private float currentWeightEquipment;
+
     public float moveSpeed;
     public float jumpSpeed;
     public float rotationSpeed;
     public int maxJumps;
     private int currentJumps;
+
+    [SerializeField] private TMP_Text textVigor;
+    [SerializeField] private TMP_Text textEndurance;
+    [SerializeField] private TMP_Text textVitality;
+    [SerializeField] private TMP_Text textStrength;
+    [SerializeField] private TMP_Text textDexterity;
+    [SerializeField] private TMP_Text textLuck;
     [SerializeField] private TMP_Text textHP;
-    [SerializeField] private Scrollbar scrollbarHP;
-    [SerializeField] private TMP_Text textXP;
-    [SerializeField] private Scrollbar scrollbarXP;
+    [SerializeField] private TMP_Text textST;
+    [SerializeField] private TMP_Text textWeightEquipment;
     [SerializeField] private TMP_Text textLevel;
+    [SerializeField] private Scrollbar scrollbarHP;
     private new Rigidbody rigidbody;
     public GameScene gameScene;
     private Vector3 move;
     [SerializeField] private new Camera camera;
     [SerializeField] private GameObject menuPause;
+    [SerializeField] private GameObject menuStatus;
 
     private void Awake(){
-        Initialize();
+        InitializeSpecifications();
+        InitializeMovement();
         rigidbody = GetComponent<Rigidbody>();
-        this.AddComponent<GameScene>();
-        gameScene = GetComponent<GameScene>();
-        gameScene.menuPause = menuPause;
+        gameScene = this.AddComponent<GameScene>();
     }
 
-    private void Initialize(){
-        maxHP = 100;
-        maxXP = 10;
+    private void InitializeSpecifications(){
         level = 1;
+        vigor = 10;
+        endurance = 10;
+        vitality = 10;
+        strength = 10;
+        dexterity = 10;
+        luck = 10;
+        maxHP = 100;
+        maxST = 100;
+        maxXP = 10;
+        maxWeightEquipment = 22.2f;
+        currentWeightEquipment = 0;
+        SetHP(maxHP);
+        SetST(maxST);
+    }
+
+    private void InitializeMovement(){
         moveSpeed = 4f;
         jumpSpeed = 4f;
         rotationSpeed = 10f;
         maxJumps = 1;
-        SetHP(maxHP);
         currentJumps = maxJumps;
     }
 
@@ -52,17 +83,28 @@ public class Player : MonoBehaviour{
 
     public int GetMaxHP() => maxHP;
 
+    public int GetST() => currentST;
+
+    public int GetMaxST() => maxST;
+
     public int GetXP() => currentXP;
 
     public int GetMaxXP() => maxXP;
 
     private void SetHP(int value) => currentHP = Math.Min(Math.Max(currentHP + value, 0), maxHP);
 
+    private void SetST(int value) => currentST = Math.Min(Math.Max(currentST + value, 0), maxST);
+
     private void SetXP(int value) => currentXP += value;
 
     public void NewHP(int value) => currentHP = value;
 
     public void NewMaxHP(int value) => maxHP = value;
+
+    public void NewST(int value) => currentST = value;
+
+    public void NewMaxST(int value) => maxST = value;
+
     public void NewXP(int value) => currentXP = value;
 
     public void NewMaxXP(int value) => maxXP = value;
@@ -78,8 +120,8 @@ public class Player : MonoBehaviour{
     public void SetCurrentJumps(int countJumps) => currentJumps = countJumps;
 
     public void IndependentAction(){
-        if (Input.GetKeyDown(KeyCode.Escape))
-            gameScene.SetMenuPause();
+        if (Input.GetKeyDown(KeyCode.Escape)) menuPause.SetActive(!menuPause.activeSelf);
+        if (Input.GetKeyDown(KeyCode.O)) menuStatus.SetActive(!menuStatus.activeSelf);
     }
 
     public void Update(){
@@ -125,11 +167,17 @@ public class Player : MonoBehaviour{
     }
 
     private void Display(){
-        textHP.text = $"HP: {Convert.ToString(currentHP)}/{Convert.ToString(maxHP)}";
+        textVigor.text = $"Жизненная сила: {vigor}";
+        textEndurance.text = $"Стойкость: {endurance}";
+        textVitality.text = $"Физическая мощь: {vitality}";
+        textStrength.text = $"Сила: {strength}";
+        textDexterity.text = $"Ловкость: {dexterity}";
+        textLuck.text = $"Удача: {luck}";
+        textHP.text = $"Здоровье: {Convert.ToString(currentHP)}/{Convert.ToString(maxHP)}";
+        textST.text = $"Выносливость: {Convert.ToString(maxST)}";
+        textWeightEquipment.text = $"Вес снаряжения: {Convert.ToString(currentWeightEquipment)}/{Convert.ToString(maxWeightEquipment)}";
+        textLevel.text = $"Уровень: {level}";
         scrollbarHP.size = currentHP * 1f / maxHP;
-        textXP.text = $"XP: {Convert.ToString(currentXP)}/{Convert.ToString(maxXP)}";
-        scrollbarXP.size = currentXP * 1f / maxXP;
-        textLevel.text = $"Level: {level}";
     }
 
     private void OnCollisionEnter(Collision collision){
@@ -137,7 +185,7 @@ public class Player : MonoBehaviour{
             currentJumps = maxJumps;
     }
 
-    public void Continue() => gameScene.HiddenMenuPause();
+    public void Continue() => menuPause.SetActive(false);
 
     public void ExitMainMenu() => Settings.OpenMainMenu();
 
