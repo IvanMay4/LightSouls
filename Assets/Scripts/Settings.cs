@@ -12,7 +12,6 @@ using UnityEngine.UI;
 
 public static class Settings{
     public static float volume = 1;
-    public static int levelComplexity = 1;
     public static bool isEnterSettings = false;
     public static bool isLoadGame = false;
     public static string filenameSaveGame = "Game.save";
@@ -20,10 +19,7 @@ public static class Settings{
 
     public static void OpenMainMenu() => SceneManager.LoadScene("Main");
 
-    public static void OpenSettings(){
-        isEnterSettings = true;
-        SceneManager.LoadScene("Settings");
-    }
+    public static void OpenSettings() => SceneManager.LoadScene("Settings");
 
     public static void OpenGame() => SceneManager.LoadScene("Game");
 

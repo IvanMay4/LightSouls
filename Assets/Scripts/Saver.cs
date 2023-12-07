@@ -5,15 +5,14 @@ using System.IO;
 using UnityEngine;
 
 public static class Saver{
-    public static float volume;
-    public static int levelComplexity;
     public static string[] valuesPlayer;
     public static string[][] valuesEnemies;
 
     public static void SaveGame(GameScene gameScene){
         StreamWriter writer = new StreamWriter(Settings.filenameSaveGame);
         Player player = gameScene.GetComponentInParent<Player>();
-        writer.WriteLine(player.transform.position.x + " " + player.transform.position.y + " " + player.transform.position.z + " " + player.transform.rotation.eulerAngles.y + " " + player.GetCurrentJumps() + " " + player.GetHP());
+        writer.WriteLine($"{player.transform.position.x} {player.transform.position.y} {player.transform.position.z} {player.transform.rotation.eulerAngles.y} " +
+            $"{player.GetCurrentJumps()} {player.level} {player.GetMaxXP()} {player.GetXP()} {player.GetMaxHP()} {player.GetHP()}");
         writer.WriteLine(gameScene.enemies.Length);
         foreach (Enemy enemy in gameScene.enemies)
             writer.WriteLine(enemy.transform.position.x + " " + enemy.transform.position.z + " " + enemy.GetHP());
@@ -22,7 +21,7 @@ public static class Saver{
 
     public static void SaveSettings(){
         StreamWriter writer = new StreamWriter(Settings.filenameSaveSettings);
-        writer.WriteLine(Settings.volume + " " + Settings.levelComplexity);
+        writer.WriteLine(Settings.volume);
         writer.Close();
     }
 
@@ -39,8 +38,7 @@ public static class Saver{
     public static void LoadSettings(){
         StreamReader reader = new StreamReader(Settings.filenameSaveSettings);
         string[] valuesSettings = reader.ReadLine().Split();
-        volume = (float)Convert.ToDouble(valuesSettings[0]);
-        levelComplexity = Convert.ToInt32(valuesSettings[1]);
+        Settings.volume = (float)Convert.ToDouble(valuesSettings[0]);
         reader.Close();
     }
 }
