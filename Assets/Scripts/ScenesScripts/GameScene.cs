@@ -7,22 +7,20 @@ using UnityEngine;
 
 public class GameScene : MonoBehaviour{
     public Enemy[] enemies;
-    private Player player;
     private int cooldownSave = 1 * 60;
     private int timeSave = 0;
 
     private void Start(){
-        player = GetComponent<Player>();
         if (Settings.isLoadGame){
             Settings.isLoadGame = false;
-            player.transform.position = new Vector3((float)Convert.ToDouble(Saver.valuesPlayer[0]), (float)Convert.ToDouble(Saver.valuesPlayer[1]), (float)Convert.ToDouble(Saver.valuesPlayer[2]));
-            player.transform.eulerAngles = new Vector3(0, (float)Convert.ToDouble(Saver.valuesPlayer[3]), 0);
-            player.SetCurrentJumps(Convert.ToInt32(Saver.valuesPlayer[4]));
-            player.level = Convert.ToInt32(Saver.valuesPlayer[5]);
-            player.NewMaxXP(Convert.ToInt32(Saver.valuesPlayer[6]));
-            player.NewXP(Convert.ToInt32(Saver.valuesPlayer[7]));
-            player.NewMaxHP(Convert.ToInt32(Saver.valuesPlayer[8]));
-            player.NewHP(Convert.ToInt32(Saver.valuesPlayer[9]));
+            Player.instance.transform.position = new Vector3((float)Convert.ToDouble(Saver.valuesPlayer[0]), (float)Convert.ToDouble(Saver.valuesPlayer[1]), (float)Convert.ToDouble(Saver.valuesPlayer[2]));
+            Player.instance.transform.eulerAngles = new Vector3(0, (float)Convert.ToDouble(Saver.valuesPlayer[3]), 0);
+            Player.instance.SetCurrentJumps(Convert.ToInt32(Saver.valuesPlayer[4]));
+            Player.instance.level = Convert.ToInt32(Saver.valuesPlayer[5]);
+            Player.instance.NewMaxXP(Convert.ToInt32(Saver.valuesPlayer[6]));
+            Player.instance.NewXP(Convert.ToInt32(Saver.valuesPlayer[7]));
+            Player.instance.NewMaxHP(Convert.ToInt32(Saver.valuesPlayer[8]));
+            Player.instance.NewHP(Convert.ToInt32(Saver.valuesPlayer[9]));
         }
     }
 
@@ -48,7 +46,7 @@ public class GameScene : MonoBehaviour{
         for (int i = 0; i < enemies.Length; i++)
             if (enemies[i].GetHP() <= 0)
                 DeleteEnemy(i);
-        if (player.GetHP() == 0)
+        if (Player.instance.GetHP() == 0)
             Settings.OpenGameOver();
         else if (enemies.Length == 0)
             Settings.OpenWin();

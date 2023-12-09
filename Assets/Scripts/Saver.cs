@@ -10,7 +10,7 @@ public static class Saver{
 
     public static void SaveGame(GameScene gameScene){
         StreamWriter writer = new StreamWriter(Settings.filenameSaveGame);
-        Player player = gameScene.GetComponentInParent<Player>();
+        Player player = Player.instance;
         writer.WriteLine($"{player.transform.position.x} {player.transform.position.y} {player.transform.position.z} {player.transform.rotation.eulerAngles.y} " +
             $"{player.GetCurrentJumps()} {player.level} {player.GetMaxXP()} {player.GetXP()} {player.GetMaxHP()} {player.GetHP()}");
         writer.WriteLine(gameScene.enemies.Length);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -44,14 +45,20 @@ public class Player : MonoBehaviour{
     public GameScene gameScene;
     private Vector3 move;
     [SerializeField] private new Camera camera;
-    [SerializeField] private GameObject menuPause;
-    [SerializeField] private GameObject menuStatus;
+
+    public static Player instance;
 
     private void Awake(){
+        instance = this;
         InitializeSpecifications();
         InitializeMovement();
         rigidbody = GetComponent<Rigidbody>();
         gameScene = this.AddComponent<GameScene>();
+    }
+
+    private void Start(){
+        Inventory.instance.AddItems("Cure");
+        Inventory.instance.AddItems("Cure");
     }
 
     private void InitializeSpecifications(){
@@ -120,18 +127,35 @@ public class Player : MonoBehaviour{
     public void SetCurrentJumps(int countJumps) => currentJumps = countJumps;
 
     public void IndependentAction(){
-        if (Input.GetKeyDown(KeyCode.Escape)) menuPause.SetActive(!menuPause.activeSelf);
-        if (Input.GetKeyDown(KeyCode.O)) menuStatus.SetActive(!menuStatus.activeSelf);
+        if (Input.GetKeyDown(KeyCode.Escape)) SetVisibleMenuPause();
+        if (Input.GetKeyDown(KeyCode.O)) SetVisibleMenuStatus();
+        if (Input.GetKeyDown(KeyCode.I)) SetVisibleInventory();
     }
 
-    public void Update(){
+    public void SetVisibleMenuPause(){
+        if (!MenuPause.instance.gameObject.activeSelf && (MenuStatus.instance.gameObject.activeSelf || Inventory.instance.gameObject.activeSelf)) return;
+        MenuPause.instance.gameObject.SetActive(!MenuPause.instance.gameObject.activeSelf);
+    }
+    public void SetVisibleMenuStatus(){
+        if (!MenuStatus.instance.gameObject.activeSelf && (MenuPause.instance.gameObject.activeSelf || Inventory.instance.gameObject.activeSelf)) return;
+        MenuStatus.instance.gameObject.SetActive(!MenuStatus.instance.gameObject.activeSelf);
+    }
+    public void SetVisibleInventory(){
+        if (!Inventory.instance.gameObject.activeSelf && (MenuPause.instance.gameObject.activeSelf || MenuStatus.instance.gameObject.activeSelf)) return;
+        Inventory.instance.gameObject.SetActive(!Inventory.instance.gameObject.activeSelf);
+    }
+
+    private void Update(){
         IndependentAction();
-        Move();
-        Jump();
-        Rotation();
         UseAbility();
         LevelUp();
         Display();
+    }
+
+    public void FixedUpdate(){
+        Move();
+        Jump();
+        Rotation();
         rigidbody.velocity = Quaternion.Euler(0, camera.transform.rotation.eulerAngles.y, 0) * move;
     }
 
@@ -185,7 +209,7 @@ public class Player : MonoBehaviour{
             currentJumps = maxJumps;
     }
 
-    public void Continue() => menuPause.SetActive(false);
+    public void Continue() => MenuPause.instance.gameObject.SetActive(false);
 
     public void ExitMainMenu() => Settings.OpenMainMenu();
 

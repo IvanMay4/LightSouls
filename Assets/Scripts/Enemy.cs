@@ -9,14 +9,12 @@ public class Enemy : MonoBehaviour{
     [SerializeField] public int damagePower = 10;
     private int colldown = 60;
     private int time = 0;
-    private Player player;
     private new Rigidbody rigidbody;
     private Vector3 move = new Vector3(0, 0, 0);
 
     private void Awake(){
         currentHP = maxHP;
         rigidbody = GetComponent<Rigidbody>();
-        player = FindAnyObjectByType<Player>();
     }
 
     public int GetHP() => currentHP;
@@ -39,8 +37,8 @@ public class Enemy : MonoBehaviour{
     private void OnCollisionEnter(Collision collision){
         if (collision.gameObject.CompareTag("Player")){
             currentHP -= 100;
-            player.GetDamage(10);
-            player.GetExperience(5);
+            Player.instance.GetDamage(10);
+            Player.instance.GetExperience(5);
         }
     }
 }
