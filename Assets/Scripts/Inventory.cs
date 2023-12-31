@@ -1,20 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEditor.Progress;
 
 public class Inventory : MonoBehaviour{
-    ItemUI[] items;
+    public GameObject[] itemsObjects;
+    private Item[] items;
+    private byte countItems;
 
     public static Inventory instance;
 
     private void Awake(){
         instance = this;
-        items = new ItemUI[FindObjectsOfType<ItemUI>().Length];
-        for (int i = 0; i < items.Length; i++)
-            items[i] = FindObjectsOfType<ItemUI>()[items.Length - i - 1];
+        items = new Item[itemsObjects.Length];
+        countItems = 0;
     }
 
     private void Start(){
@@ -22,33 +24,30 @@ public class Inventory : MonoBehaviour{
     }
 
     private void FixedUpdate(){
-        for (int i = 0; i < items.Length; i++)
-            if (items[i].item != null){
-                items[i].gameObject.GetComponentInChildren<RawImage>().texture = items[i].item.texture;
-                items[i].gameObject.GetComponentInChildren<RawImage>().color = Color.HSVToRGB(0, 0, 100);
-                items[i].gameObject.GetComponentInChildren<TMP_Text>().text = $"{items[i].count}";
-            }
+        for (int i = 0; i < countItems; i++) items[i].Show();
     }
 
     public void AddItems(string nameItem, int count = 1){
-        for (int i = 0; i < items.Length; i++)
-            if (items[i].item != null) {
-                if (items[i].item.nameItem == nameItem){
-                    items[i].count += count;
-                    return;
-                }
+        for (int i = 0; i < countItems; i++)
+            if (items[i].nameItem == nameItem){
+                items[i].count += count;
+                return;
             }
-        for (int i = 0; i < items.Length; i++)
-            if (items[i].item == null){
-                items[i].item = GetItem(nameItem);
-                items[i].item.Activate();
-                items[i].count = count;
+        for (int i = 0; i < itemsObjects.Length; i++)
+            if (!itemsObjects[i].GetComponent<Item>()) {
+                items[countItems] = GetItem(itemsObjects[i], nameItem);
+                items[countItems].Activate();
+                items[countItems].count = count;
+                countItems++;
                 return;
             }
     }
 
-    private Item GetItem(string nameItem){
-        if (nameItem == "Cure") return gameObject.AddComponent<CureItem>();
-        return null;
+    private Item GetItem(GameObject itemObject, string nameItem){
+        switch (nameItem){
+            case "Cure": return itemObject.AddComponent<CureItem>();
+            case "Candies": return itemObject.AddComponent<CandiesItem>();
+            default: return null; 
+        }
     }
 }

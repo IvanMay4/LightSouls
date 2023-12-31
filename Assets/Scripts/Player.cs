@@ -9,12 +9,7 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour{
     public int level;
-    private int vigor;
-    private int endurance;
-    private int vitality;
-    private int strength;
-    private int dexterity;
-    private int luck;
+    private Dictionary<string, int> specifications;
     private int maxHP;
     private int currentHP;
     private int maxST;
@@ -56,19 +51,15 @@ public class Player : MonoBehaviour{
         gameScene = this.AddComponent<GameScene>();
     }
 
-    private void Start(){
-        Inventory.instance.AddItems("Cure");
-        Inventory.instance.AddItems("Cure");
-    }
-
     private void InitializeSpecifications(){
         level = 1;
-        vigor = 10;
-        endurance = 10;
-        vitality = 10;
-        strength = 10;
-        dexterity = 10;
-        luck = 10;
+        specifications = new Dictionary<string, int>();
+        specifications["vigor"] = 10;
+        specifications["endurance"] = 10;
+        specifications["vitality"] = 10;
+        specifications["strength"] = 10;
+        specifications["dexterity"] = 10;
+        specifications["luck"] = 10;
         maxHP = 100;
         maxST = 100;
         maxXP = 10;
@@ -191,12 +182,12 @@ public class Player : MonoBehaviour{
     }
 
     private void Display(){
-        textVigor.text = $"Жизненная сила: {vigor}";
-        textEndurance.text = $"Стойкость: {endurance}";
-        textVitality.text = $"Физическая мощь: {vitality}";
-        textStrength.text = $"Сила: {strength}";
-        textDexterity.text = $"Ловкость: {dexterity}";
-        textLuck.text = $"Удача: {luck}";
+        textVigor.text = $"Жизненная сила: {specifications["vigor"]}";
+        textEndurance.text = $"Стойкость: {specifications["endurance"]}";
+        textVitality.text = $"Физическая мощь: {specifications["vitality"]}";
+        textStrength.text = $"Сила: {specifications["strength"]}";
+        textDexterity.text = $"Ловкость: {specifications["dexterity"]}";
+        textLuck.text = $"Удача: {specifications["luck"]}";
         textHP.text = $"Здоровье: {Convert.ToString(currentHP)}/{Convert.ToString(maxHP)}";
         textST.text = $"Выносливость: {Convert.ToString(maxST)}";
         textWeightEquipment.text = $"Вес снаряжения: {Convert.ToString(currentWeightEquipment)}/{Convert.ToString(maxWeightEquipment)}";
