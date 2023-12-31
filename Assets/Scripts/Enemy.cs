@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour{
     public int NewHP(int value) => currentHP = value;
 
     public void Update(){
+        ;
         Move();
         rigidbody.velocity = move;
     }

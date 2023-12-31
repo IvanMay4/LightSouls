@@ -18,6 +18,10 @@ public class WindowItem : MonoBehaviour{
     }
 
     public void OnEnable(){
+        ResetWindowItem();
+    }
+
+    public void ResetWindowItem(){
         image.texture = null;
         image.color = defaultColor;
         textTitle.text = "";

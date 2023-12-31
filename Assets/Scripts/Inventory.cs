@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ using static UnityEditor.Progress;
 
 public class Inventory : MonoBehaviour{
     public GameObject[] itemsObjects;
-    private Item[] items;
+    public Item[] items;
     private byte countItems;
 
     public static Inventory instance;
@@ -24,6 +25,7 @@ public class Inventory : MonoBehaviour{
     }
 
     private void FixedUpdate(){
+        DeleteItem();
         for (int i = 0; i < countItems; i++) items[i].Show();
     }
 
@@ -40,6 +42,20 @@ public class Inventory : MonoBehaviour{
                 items[countItems].count = count;
                 countItems++;
                 return;
+            }
+    }
+
+    private void DeleteItem(){
+        for(int i = 0;i < countItems; i++)
+            if (items[i].count <= 0){
+                for (int j = i; j < countItems - 1; j++){
+                    items[j].Delete();
+                    items[j] = GetItem(items[j].gameObject, items[j + 1].nameItem);
+                    items[j].Activate();
+                    items[j].count = items[j + 1].count;
+                }
+                countItems--;
+                items[countItems].Delete();
             }
     }
 

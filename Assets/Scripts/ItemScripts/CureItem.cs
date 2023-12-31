@@ -9,4 +9,8 @@ public class CureItem : Item{
         description = "Ходят легенды, что это лекарство способно исцелить от всех болезней. При использовании снимает все негативные эффекты";
         texture = Resources.Load("Cure") as Texture;
     }
+
+    protected override void UseItem(){
+        count--;
+    }
 }

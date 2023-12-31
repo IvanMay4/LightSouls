@@ -166,10 +166,7 @@ public class Player : MonoBehaviour{
         transform.rotation *= Quaternion.Euler(0, (Input.GetKey(KeyCode.Q)? -1: Input.GetKey(KeyCode.E)? 1: 0) * Time.deltaTime * rotationSpeed, 0);
     }
 
-    private void UseAbility(){
-        if (Input.GetKeyDown(KeyCode.H))
-            GetHeal(10);
-    }
+    private void UseAbility(){}
 
     private void LevelUp(){
         if (currentXP < maxXP)
