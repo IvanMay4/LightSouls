@@ -10,17 +10,14 @@ using UnityEngine.UI;
 using static UnityEditor.Progress;
 
 public class Inventory : MonoBehaviour{
-    [NonSerialized] public ItemUI[] itemsUI;
     [NonSerialized] public Item[] items;
-    private byte countItems;
+    public ItemUI[] itemsUI;
+    public byte countItems;
 
     [NonSerialized] public static Inventory instance;
 
     private void Awake(){
         instance = this;
-        itemsUI = new ItemUI[FindObjectsOfType<ItemUI>().Length];
-        for(int i = 0; i < FindObjectsOfType<ItemUI>().Length; i++)
-            itemsUI[i] = FindObjectsOfType<ItemUI>()[FindObjectsOfType<ItemUI>().Length - i - 1];
         items = new Item[itemsUI.Length];
         countItems = 0;
     }
@@ -41,7 +38,7 @@ public class Inventory : MonoBehaviour{
                 return;
             }
         for (int i = 0; i < itemsUI.Length; i++)
-            if (!itemsUI[i].GetComponent<Item>()) {
+            if (!itemsUI[i].GetComponent<Item>()){
                 items[countItems] = GetItem(itemsUI[i].gameObject, nameItem);
                 items[countItems].Activate();
                 items[countItems].count = count;
@@ -64,7 +61,7 @@ public class Inventory : MonoBehaviour{
             }
     }
 
-    private Item GetItem(GameObject itemObject, string nameItem){
+    private static Item GetItem(GameObject itemObject, string nameItem){
         switch (nameItem){
             case "Cure": return itemObject.AddComponent<CureItem>();
             case "Candies": return itemObject.AddComponent<CandiesItem>();

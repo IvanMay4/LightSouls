@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ItemUI : MonoBehaviour{
     public RawImage image;
     public TMP_Text text;
-    public Color defaultColor;
+    Color defaultColor;
 
     private void Start(){
         defaultColor = image.color;

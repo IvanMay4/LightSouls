@@ -13,14 +13,18 @@ public class GameScene : MonoBehaviour{
     private void Start(){
         if (Settings.isLoadGame){
             Settings.isLoadGame = false;
-            Player.instance.transform.position = new Vector3((float)Convert.ToDouble(Saver.valuesPlayer[0]), (float)Convert.ToDouble(Saver.valuesPlayer[1]), (float)Convert.ToDouble(Saver.valuesPlayer[2]));
-            Player.instance.transform.eulerAngles = new Vector3(0, (float)Convert.ToDouble(Saver.valuesPlayer[3]), 0);
-            Player.instance.SetCurrentJumps(Convert.ToInt32(Saver.valuesPlayer[4]));
-            Player.instance.level = Convert.ToInt32(Saver.valuesPlayer[5]);
-            Player.instance.NewMaxXP(Convert.ToInt32(Saver.valuesPlayer[6]));
-            Player.instance.NewXP(Convert.ToInt32(Saver.valuesPlayer[7]));
-            Player.instance.NewMaxHP(Convert.ToInt32(Saver.valuesPlayer[8]));
-            Player.instance.NewHP(Convert.ToInt32(Saver.valuesPlayer[9]));
+            Player.instance.transform.position = new Vector3((float)Convert.ToDouble(Saver.valuesPlayerPosition[0]), (float)Convert.ToDouble(Saver.valuesPlayerPosition[1]), (float)Convert.ToDouble(Saver.valuesPlayerPosition[2]));
+            Player.instance.transform.eulerAngles = new Vector3(0, (float)Convert.ToDouble(Saver.valuesPlayerPosition[3]), 0);
+            Player.instance.SetCurrentJumps(Convert.ToInt32(Saver.valuesPlayerPosition[4]));
+            Player.instance.level = Convert.ToInt32(Saver.valuesPlayerStats[0]);
+            Player.instance.NewMaxHP(Convert.ToInt32(Saver.valuesPlayerStats[1]));
+            Player.instance.NewHP(Convert.ToInt32(Saver.valuesPlayerStats[2]));
+            Player.instance.NewMaxST(Convert.ToInt32(Saver.valuesPlayerStats[3]));
+            Player.instance.NewST(Convert.ToInt32(Saver.valuesPlayerStats[4]));
+            for (int i = 0; i < Saver.valuesSpecifications.Length; i++)
+                Player.instance.specifications[Player.GetNameSpecification(i)] = Convert.ToInt32(Saver.valuesSpecifications[i]);
+            for (int i = 0; i < Saver.valuesItems.Length; i++)
+                Inventory.instance.AddItems(Saver.valuesItems[i][0], Convert.ToInt32(Saver.valuesItems[i][1]));
         }
     }
 

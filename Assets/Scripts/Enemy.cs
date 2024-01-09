@@ -38,7 +38,6 @@ public class Enemy : MonoBehaviour{
         if (collision.gameObject.CompareTag("Player")){
             currentHP -= 100;
             Player.instance.GetDamage(10);
-            Player.instance.GetExperience(5);
         }
     }
 }

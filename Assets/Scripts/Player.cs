@@ -9,37 +9,36 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour{
     [NonSerialized] public int level;
-    private Dictionary<string, int> specifications;
-    private int maxHP;
-    private int currentHP;
-    private int maxST;
-    private int currentST;
-    private int maxXP;
-    private int currentXP;
-    private float maxWeightEquipment;
-    private float currentWeightEquipment;
+    public Dictionary<string, int> specifications;
+    int maxHP;
+    int currentHP;
+    int maxST;
+    int currentST;
+    float maxWeightEquipment;
+    float currentWeightEquipment;
 
     public float moveSpeed;
     public float jumpSpeed;
     public float rotationSpeed;
     public int maxJumps;
-    private int currentJumps;
+    int currentJumps;
 
-    [SerializeField] private TMP_Text textVigor;
-    [SerializeField] private TMP_Text textEndurance;
-    [SerializeField] private TMP_Text textVitality;
-    [SerializeField] private TMP_Text textStrength;
-    [SerializeField] private TMP_Text textDexterity;
-    [SerializeField] private TMP_Text textLuck;
-    [SerializeField] private TMP_Text textHP;
-    [SerializeField] private TMP_Text textST;
-    [SerializeField] private TMP_Text textWeightEquipment;
-    [SerializeField] private TMP_Text textLevel;
-    [SerializeField] private Scrollbar scrollbarHP;
-    private new Rigidbody rigidbody;
+    [SerializeField] TMP_Text textVigor;
+    [SerializeField] TMP_Text textEndurance;
+    [SerializeField] TMP_Text textVitality;
+    [SerializeField] TMP_Text textStrength;
+    [SerializeField] TMP_Text textDexterity;
+    [SerializeField] TMP_Text textLuck;
+    [SerializeField] TMP_Text textHP;
+    [SerializeField] TMP_Text textST;
+    [SerializeField] TMP_Text textWeightEquipment;
+    [SerializeField] TMP_Text textLevel;
+    [SerializeField] Scrollbar scrollbarHP;
+    [SerializeField] Scrollbar scrollbarST;
+    new Rigidbody rigidbody;
     [NonSerialized] public GameScene gameScene;
-    private Vector3 move;
-    [SerializeField] private new Camera camera;
+    Vector3 move;
+    [SerializeField] new Camera camera;
 
     [NonSerialized] public static Player instance;
 
@@ -62,7 +61,6 @@ public class Player : MonoBehaviour{
         specifications["luck"] = 10;
         maxHP = 100;
         maxST = 100;
-        maxXP = 10;
         maxWeightEquipment = 22.2f;
         currentWeightEquipment = 0;
         SetHP(maxHP);
@@ -85,15 +83,9 @@ public class Player : MonoBehaviour{
 
     public int GetMaxST() => maxST;
 
-    public int GetXP() => currentXP;
-
-    public int GetMaxXP() => maxXP;
-
     private void SetHP(int value) => currentHP = Math.Min(Math.Max(currentHP + value, 0), maxHP);
 
     private void SetST(int value) => currentST = Math.Min(Math.Max(currentST + value, 0), maxST);
-
-    private void SetXP(int value) => currentXP += value;
 
     public void NewHP(int value) => currentHP = value;
 
@@ -103,35 +95,29 @@ public class Player : MonoBehaviour{
 
     public void NewMaxST(int value) => maxST = value;
 
-    public void NewXP(int value) => currentXP = value;
-
-    public void NewMaxXP(int value) => maxXP = value;
-
     public void GetDamage(int valueDamage) => SetHP(-valueDamage);
 
     public void GetHeal(int valueHeal) => SetHP(valueHeal);
-
-    public void GetExperience(int valueExperience) => SetXP(valueExperience);
 
     public int GetCurrentJumps() => currentJumps;
 
     public void SetCurrentJumps(int countJumps) => currentJumps = countJumps;
 
-    public void IndependentAction(){
+    public static void IndependentAction(){
         if (Input.GetKeyDown(KeyCode.Escape)) SetVisibleMenuPause();
         if (Input.GetKeyDown(KeyCode.O)) SetVisibleMenuStatus();
         if (Input.GetKeyDown(KeyCode.I)) SetVisibleInventory();
     }
 
-    public void SetVisibleMenuPause(){
+    public static void SetVisibleMenuPause(){
         if (!MenuPause.instance.gameObject.activeSelf && (MenuStatus.instance.gameObject.activeSelf || Inventory.instance.gameObject.activeSelf)) return;
         MenuPause.instance.gameObject.SetActive(!MenuPause.instance.gameObject.activeSelf);
     }
-    public void SetVisibleMenuStatus(){
+    public static void SetVisibleMenuStatus(){
         if (!MenuStatus.instance.gameObject.activeSelf && (MenuPause.instance.gameObject.activeSelf || Inventory.instance.gameObject.activeSelf)) return;
         MenuStatus.instance.gameObject.SetActive(!MenuStatus.instance.gameObject.activeSelf);
     }
-    public void SetVisibleInventory(){
+    public static void SetVisibleInventory(){
         if (!Inventory.instance.gameObject.activeSelf && (MenuPause.instance.gameObject.activeSelf || MenuStatus.instance.gameObject.activeSelf)) return;
         Inventory.instance.gameObject.SetActive(!Inventory.instance.gameObject.activeSelf);
     }
@@ -169,12 +155,8 @@ public class Player : MonoBehaviour{
     private void UseAbility(){}
 
     private void LevelUp(){
-        if (currentXP < maxXP)
-            return;
+        return;
         level++;
-        currentXP -= maxXP;
-        maxXP += 5;
-        GetExperience(0);
         NewMaxHP(maxHP + 10);
     }
 
@@ -190,6 +172,19 @@ public class Player : MonoBehaviour{
         textWeightEquipment.text = $"Вес снаряжения: {Convert.ToString(currentWeightEquipment)}/{Convert.ToString(maxWeightEquipment)}";
         textLevel.text = $"Уровень: {level}";
         scrollbarHP.size = currentHP * 1f / maxHP;
+        scrollbarST.size = currentST * 1f / maxST;
+    }
+
+    public static string GetNameSpecification(int index){
+        switch (index){
+            case 0: return "vigor";
+            case 1: return "endurance";
+            case 2: return "vitality";
+            case 3: return "strength";
+            case 4: return "dexterity";
+            case 5: return "luck";
+            default: return "";
+        }
     }
 
     private void OnCollisionEnter(Collision collision){
@@ -197,9 +192,9 @@ public class Player : MonoBehaviour{
             currentJumps = maxJumps;
     }
 
-    public void Continue() => MenuPause.instance.gameObject.SetActive(false);
+    public static void Continue() => MenuPause.instance.gameObject.SetActive(false);
 
-    public void ExitMainMenu() => Settings.OpenMainMenu();
+    public static void ExitMainMenu() => Settings.OpenMainMenu();
 
     public void Save() => Saver.SaveGame(gameScene);
 }

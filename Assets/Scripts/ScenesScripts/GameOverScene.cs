@@ -3,5 +3,5 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameOverScene : MonoBehaviour{
-    public void ExitMainMenu() => Settings.OpenMainMenu();
+    public static void ExitMainMenu() => Settings.OpenMainMenu();
 }

@@ -13,9 +13,9 @@ public class MainMenu : MonoBehaviour{
         Settings.ButtonSetEnabled(buttonContinue);
     }
 
-    public void DeleteProgress() => Settings.DeleteFile(Settings.filenameSaveGame);
+    public static void DeleteProgress() => Settings.DeleteFile(Settings.filenameSaveGame);
 
-    public void LoadGame(){
+    public static void LoadGame(){
         SceneManager.LoadScene("Game");
         Settings.isLoadGame = true;
         Saver.LoadSettings();

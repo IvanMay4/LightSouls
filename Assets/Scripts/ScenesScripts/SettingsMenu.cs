@@ -20,5 +20,5 @@ public class SettingsMenu : MonoBehaviour{
         Saver.SaveSettings();
     }
 
-    public void ExitMain() => Settings.OpenMainMenu();
+    public static void ExitMain() => Settings.OpenMainMenu();
 }
