@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour{
-    [SerializeField] public Slider sliderVolume;
+    public Slider sliderVolume;
 
     private void Start(){
         if (!File.Exists(Settings.filenameSaveSettings))

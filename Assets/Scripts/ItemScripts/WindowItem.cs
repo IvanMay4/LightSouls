@@ -5,10 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class WindowItem : MonoBehaviour{
-    [SerializeField] public RawImage image;
-    [SerializeField] public TMP_Text textTitle;
-    [SerializeField] public TMP_Text textDescription;
-    private Color defaultColor;
+    public RawImage image;
+    public TMP_Text textTitle;
+    public TMP_Text textDescription;
+    Color defaultColor;
 
     public static WindowItem instance;
 

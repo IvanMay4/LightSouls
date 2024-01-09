@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour{
-    [SerializeField] public int maxHP = 100;
-    private int currentHP = 0;
-    [SerializeField] float speed = 4f;
-    [SerializeField] public int damagePower = 10;
-    private int colldown = 60;
-    private int time = 0;
-    private new Rigidbody rigidbody;
-    private Vector3 move = new Vector3(0, 0, 0);
+    public int maxHP = 100;
+    int currentHP = 0;
+    float speed = 4f;
+    public int damagePower = 10;
+    int colldown = 60;
+    int time = 0;
+    new Rigidbody rigidbody;
+    Vector3 move = new Vector3(0, 0, 0);
 
     private void Awake(){
         currentHP = maxHP;
@@ -22,7 +22,6 @@ public class Enemy : MonoBehaviour{
     public int NewHP(int value) => currentHP = value;
 
     public void Update(){
-        ;
         Move();
         rigidbody.velocity = move;
     }

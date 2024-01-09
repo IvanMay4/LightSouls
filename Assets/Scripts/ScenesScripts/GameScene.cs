@@ -6,9 +6,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameScene : MonoBehaviour{
-    public Enemy[] enemies;
-    private int cooldownSave = 1 * 60;
-    private int timeSave = 0;
+    [NonSerialized] public Enemy[] enemies;
+    int cooldownSave = 1 * 60;
+    int timeSave = 0;
 
     private void Start(){
         if (Settings.isLoadGame){

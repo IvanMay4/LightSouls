@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -8,15 +10,18 @@ using UnityEngine.UI;
 using static UnityEditor.Progress;
 
 public class Inventory : MonoBehaviour{
-    public GameObject[] itemsObjects;
-    public Item[] items;
+    [NonSerialized] public ItemUI[] itemsUI;
+    [NonSerialized] public Item[] items;
     private byte countItems;
 
-    public static Inventory instance;
+    [NonSerialized] public static Inventory instance;
 
     private void Awake(){
         instance = this;
-        items = new Item[itemsObjects.Length];
+        itemsUI = new ItemUI[FindObjectsOfType<ItemUI>().Length];
+        for(int i = 0; i < FindObjectsOfType<ItemUI>().Length; i++)
+            itemsUI[i] = FindObjectsOfType<ItemUI>()[FindObjectsOfType<ItemUI>().Length - i - 1];
+        items = new Item[itemsUI.Length];
         countItems = 0;
     }
 
@@ -35,9 +40,9 @@ public class Inventory : MonoBehaviour{
                 items[i].count += count;
                 return;
             }
-        for (int i = 0; i < itemsObjects.Length; i++)
-            if (!itemsObjects[i].GetComponent<Item>()) {
-                items[countItems] = GetItem(itemsObjects[i], nameItem);
+        for (int i = 0; i < itemsUI.Length; i++)
+            if (!itemsUI[i].GetComponent<Item>()) {
+                items[countItems] = GetItem(itemsUI[i].gameObject, nameItem);
                 items[countItems].Activate();
                 items[countItems].count = count;
                 countItems++;
@@ -50,7 +55,7 @@ public class Inventory : MonoBehaviour{
             if (items[i].count <= 0){
                 for (int j = i; j < countItems - 1; j++){
                     items[j].Delete();
-                    items[j] = GetItem(items[j].gameObject, items[j + 1].nameItem);
+                    items[j] = GetItem(itemsUI[j].gameObject, items[j + 1].nameItem);
                     items[j].Activate();
                     items[j].count = items[j + 1].count;
                 }

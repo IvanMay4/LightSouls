@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour{
-    public int level;
+    [NonSerialized] public int level;
     private Dictionary<string, int> specifications;
     private int maxHP;
     private int currentHP;
@@ -37,11 +37,11 @@ public class Player : MonoBehaviour{
     [SerializeField] private TMP_Text textLevel;
     [SerializeField] private Scrollbar scrollbarHP;
     private new Rigidbody rigidbody;
-    public GameScene gameScene;
+    [NonSerialized] public GameScene gameScene;
     private Vector3 move;
     [SerializeField] private new Camera camera;
 
-    public static Player instance;
+    [NonSerialized] public static Player instance;
 
     private void Awake(){
         instance = this;

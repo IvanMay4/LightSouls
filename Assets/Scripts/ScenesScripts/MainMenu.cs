@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour{
-    [SerializeField] public Button buttonContinue;
+    public Button buttonContinue;
 
     private void LateUpdate(){
         buttonContinue.enabled = File.Exists(Settings.filenameSaveGame);

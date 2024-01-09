@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,11 +8,11 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class Item : MonoBehaviour, IPointerClickHandler{
-    public string nameItem;
-    public string title;
-    public string description;
-    public Texture texture;
-    public int count;
+    [NonSerialized] public string nameItem;
+    [NonSerialized] public string title;
+    [NonSerialized] public string description;
+    [NonSerialized] public Texture texture;
+    [NonSerialized] public int count;
 
     public virtual void Activate() {}
 
