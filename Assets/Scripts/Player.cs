@@ -22,6 +22,7 @@ public class Player : MonoBehaviour{
     public float rotationSpeed;
     public int maxJumps;
     int currentJumps;
+    bool isRun;
 
     [SerializeField] TMP_Text textVigor;
     [SerializeField] TMP_Text textEndurance;
@@ -60,7 +61,7 @@ public class Player : MonoBehaviour{
         specifications["dexterity"] = 10;
         specifications["luck"] = 10;
         maxHP = 100;
-        maxST = 100;
+        maxST = 60;
         maxWeightEquipment = 22.2f;
         currentWeightEquipment = 0;
         SetHP(maxHP);
@@ -73,6 +74,7 @@ public class Player : MonoBehaviour{
         rotationSpeed = 10f;
         maxJumps = 1;
         currentJumps = maxJumps;
+        isRun = false;
     }
 
     public int GetHP() => currentHP;
@@ -138,7 +140,14 @@ public class Player : MonoBehaviour{
 
 
     private void Move(){
-        move = new Vector3(Input.GetAxis("Horizontal") * moveSpeed, rigidbody.velocity.y, Input.GetAxis("Vertical") * moveSpeed);
+        move = new Vector3(Input.GetAxis("Horizontal") * moveSpeed, 0, Input.GetAxis("Vertical") * moveSpeed);
+        if (isRun && currentST >= 2){
+            SetST(-2);
+            move *= 2;
+        }
+        if (currentST == 0) isRun = false;
+        move.y = rigidbody.velocity.y;
+        SetST(1);
     }
 
     private void Jump(){
@@ -152,7 +161,10 @@ public class Player : MonoBehaviour{
         transform.rotation *= Quaternion.Euler(0, (Input.GetKey(KeyCode.Q)? -1: Input.GetKey(KeyCode.E)? 1: 0) * Time.deltaTime * rotationSpeed, 0);
     }
 
-    private void UseAbility(){}
+    private void UseAbility(){
+        if (Input.GetKeyDown(KeyCode.LeftShift)) isRun = true;
+        if (Input.GetKeyUp(KeyCode.LeftShift)) isRun = false;
+    }
 
     private void LevelUp(){
         return;
