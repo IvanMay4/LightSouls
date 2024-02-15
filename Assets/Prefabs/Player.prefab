@@ -134,9 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 0
-  jumpSpeed: 4
   rotationSpeed: 10
-  maxJumps: 1
   textVigor: {fileID: 2663605771435730014}
   textEndurance: {fileID: 5984477384653543694}
   textVitality: {fileID: 3990272800265103750}
@@ -337,11 +335,11 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5031942354951853961}
+  - {fileID: 821796192664328063}
   - {fileID: 808914778381132649}
   - {fileID: 6851508282312429848}
   - {fileID: 112816361198134224}
-  - {fileID: 821796192664328063}
-  - {fileID: 5031942354951853961}
   m_Father: {fileID: 3769842005678784838}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
