@@ -34,8 +34,8 @@ public class Player : MonoBehaviour{
     [SerializeField] TMP_Text textST;
     [SerializeField] TMP_Text textWeightEquipment;
     [SerializeField] TMP_Text textLevel;
-    [SerializeField] Scrollbar scrollbarHP;
-    [SerializeField] Scrollbar scrollbarST;
+    [SerializeField] Slider progressBarHP;
+    [SerializeField] Slider progressBarST;
     new Rigidbody rigidbody;
     [NonSerialized] public GameScene gameScene;
     Vector3 move;
@@ -183,8 +183,8 @@ public class Player : MonoBehaviour{
         textST.text = $"Выносливость: {Convert.ToString(maxST)}";
         textWeightEquipment.text = $"Вес снаряжения: {Convert.ToString(currentWeightEquipment)}/{Convert.ToString(maxWeightEquipment)}";
         textLevel.text = $"Уровень: {level}";
-        scrollbarHP.size = currentHP * 1f / maxHP;
-        scrollbarST.size = currentST * 1f / maxST;
+        progressBarHP.value = currentHP * 1f / maxHP;
+        progressBarST.value = currentST * 1f / maxST;
     }
 
     public static string GetNameSpecification(int index){
