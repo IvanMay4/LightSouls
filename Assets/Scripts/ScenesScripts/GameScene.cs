@@ -15,7 +15,6 @@ public class GameScene : MonoBehaviour{
             Settings.isLoadGame = false;
             Player.instance.transform.position = new Vector3((float)Convert.ToDouble(Saver.valuesPlayerPosition[0]), (float)Convert.ToDouble(Saver.valuesPlayerPosition[1]), (float)Convert.ToDouble(Saver.valuesPlayerPosition[2]));
             Player.instance.transform.eulerAngles = new Vector3(0, (float)Convert.ToDouble(Saver.valuesPlayerPosition[3]), 0);
-            Player.instance.SetCurrentJumps(Convert.ToInt32(Saver.valuesPlayerPosition[4]));
             Player.instance.level = Convert.ToInt32(Saver.valuesPlayerStats[0]);
             Player.instance.NewMaxHP(Convert.ToInt32(Saver.valuesPlayerStats[1]));
             Player.instance.NewHP(Convert.ToInt32(Saver.valuesPlayerStats[2]));

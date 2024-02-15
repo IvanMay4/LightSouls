@@ -18,10 +18,7 @@ public class Player : MonoBehaviour{
     float currentWeightEquipment;
 
     public float moveSpeed;
-    public float jumpSpeed;
     public float rotationSpeed;
-    public int maxJumps;
-    int currentJumps;
     bool isRun;
 
     [SerializeField] TMP_Text textVigor;
@@ -70,10 +67,7 @@ public class Player : MonoBehaviour{
 
     private void InitializeMovement(){
         moveSpeed = 4f;
-        jumpSpeed = 4f;
         rotationSpeed = 10f;
-        maxJumps = 1;
-        currentJumps = maxJumps;
         isRun = false;
     }
 
@@ -100,10 +94,6 @@ public class Player : MonoBehaviour{
     public void GetDamage(int valueDamage) => SetHP(-valueDamage);
 
     public void GetHeal(int valueHeal) => SetHP(valueHeal);
-
-    public int GetCurrentJumps() => currentJumps;
-
-    public void SetCurrentJumps(int countJumps) => currentJumps = countJumps;
 
     public static void IndependentAction(){
         if (Input.GetKeyDown(KeyCode.Escape)) SetVisibleMenuPause();
@@ -133,7 +123,6 @@ public class Player : MonoBehaviour{
 
     public void FixedUpdate(){
         Move();
-        Jump();
         Rotation();
         rigidbody.velocity = Quaternion.Euler(0, camera.transform.rotation.eulerAngles.y, 0) * move;
     }
@@ -148,13 +137,6 @@ public class Player : MonoBehaviour{
         if (currentST == 0) isRun = false;
         move.y = rigidbody.velocity.y;
         SetST(1);
-    }
-
-    private void Jump(){
-        if (Input.GetKeyDown(KeyCode.Space) && currentJumps > 0){
-            currentJumps--;
-            move.y = (jumpSpeed - Physics.gravity.y);
-        }
     }
 
     private void Rotation(){
@@ -197,11 +179,6 @@ public class Player : MonoBehaviour{
             case 5: return "luck";
             default: return "";
         }
-    }
-
-    private void OnCollisionEnter(Collision collision){
-        if (collision.gameObject.CompareTag("Ground"))
-            currentJumps = maxJumps;
     }
 
     public static void Continue() => MenuPause.instance.gameObject.SetActive(false);

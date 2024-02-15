@@ -15,7 +15,7 @@ public static class Saver{
     public static void SaveGame(GameScene gameScene){
         StreamWriter writer = new StreamWriter(Settings.filenameSaveGame);
         Player player = Player.instance;
-        writer.WriteLine($"{player.transform.position.x} {player.transform.position.y} {player.transform.position.z} {player.transform.rotation.eulerAngles.y} {player.GetCurrentJumps()}");
+        writer.WriteLine($"{player.transform.position.x} {player.transform.position.y} {player.transform.position.z} {player.transform.rotation.eulerAngles.y}");
         writer.WriteLine($"{player.level} {player.GetMaxHP()} {player.GetHP()} {player.GetMaxST()} {player.GetST()}");
         for(int i = 0;i < player.specifications.Values.Count - 1; i++)
             writer.Write($"{player.specifications[Player.GetNameSpecification(i)]} ");
