@@ -15,9 +15,17 @@ EditorBuildSettings:
     path: Assets/Scenes/Game.unity
     guid: e53016a86ecde0c428e57715d1d729f6
   - enabled: 1
+    path: Assets/Resources/Cave/Demonstration.unity
+    guid: 2489141ccdb0b7f4f9fcdeb612a40646
+  - enabled: 1
+    path: Assets/Resources/IthrisCemetery/Persistent_01.unity
+    guid: 830e203e9ecc7cd4c8318baf01ce8480
+  - enabled: 0
     path: Assets/Scenes/GameOver.unity
     guid: 8becfeafa71527c4e8af967fac3a3bbc
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Win.unity
     guid: cff1416465ae0654fb8dc3cb0e8fcdef
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: e8392b738eed0334c8c3a16b7b70c7c3, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: b352778303a7ca243a4a71721d854cec, type: 2}
